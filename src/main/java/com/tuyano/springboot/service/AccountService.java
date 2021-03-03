@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.tuyano.springboot.entity.Account;
+import com.tuyano.springboot.entity.AccountUserDetails;
 import com.tuyano.springboot.repositories.AccountRepository;
 
 public class AccountService implements UserDetailsService {
