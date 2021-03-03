@@ -3,6 +3,9 @@ package com.tuyano.springboot.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,5 +34,14 @@ public class AccountService implements UserDetailsService {
 		
 		return new AccountUserDetails(account.get());
 	}
-
+	
+	@PreAuthorize("hasRole('ADMIN') or (#userName==pricipal.username)")
+	public Account findOne(@P("userName") String userName) {
+		return accountRepo.findByUserName(userName).get();
+	}
+	
+	@PostAuthorize("hasRole('ADMIN') or (#userName==pricipal.username)")
+	public Account findOneHoge(String userName) {
+		return accountRepo.findByUserName(userName).get();
+	}
 }
