@@ -9,11 +9,13 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.tuyano.springboot.entity.Account;
 import com.tuyano.springboot.entity.AccountUserDetails;
 import com.tuyano.springboot.repositories.AccountRepository;
 
+@Service
 public class AccountService implements UserDetailsService {
 	
 	@Autowired
