@@ -39,7 +39,7 @@ public class EntryController {
 			ModelAndView mav) {
 		mav.setViewName("entryList");
 
-		List<Entry> list = entryRepo.findAll();
+		List<Entry> list = entryRepo.findByAccountId(id);
 		mav.addObject("list", list);
 		return mav;
 	}
