@@ -29,4 +29,8 @@ public class Entry {
 	@ManyToOne
 	@JoinColumn(name = "event_id")
 	private Event event;
+	
+	@ManyToOne
+	@JoinColumn(name = "account_id")
+	private Account account;
 }
