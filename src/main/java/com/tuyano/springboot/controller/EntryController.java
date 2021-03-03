@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tuyano.springboot.entity.Entry;
@@ -20,7 +21,7 @@ public class EntryController {
 	@Autowired
 	private EntryRepository entryRepo;
 	
-	@RequestMapping(value="/entry/regist", method=RequestMethod.POST)
+	@RequestMapping(path="/entry/regist", method=RequestMethod.POST)
 	ModelAndView entryRegist(
 		@ModelAttribute("entry") 
 		@Validated Entry entry,
@@ -32,9 +33,12 @@ public class EntryController {
 		return new ModelAndView("redirect:/event/list");
 	}
 	
-	@RequestMapping(value="/entry/list", method=RequestMethod.GET)
-	ModelAndView entryList(ModelAndView mav) {
+	@RequestMapping(path="/entry/list", method=RequestMethod.GET)
+	ModelAndView entryList(
+			@RequestParam("account_id") Long id,
+			ModelAndView mav) {
 		mav.setViewName("entryList");
+
 		List<Entry> list = entryRepo.findAll();
 		mav.addObject("list", list);
 		return mav;
