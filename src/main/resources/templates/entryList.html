@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Register Form</title>
+<meta http-equiv="Content-Type" 
+	content="text/html; charset=UTF-8" />
+<style>
+	h1 { font-size:18pt; font-weight:bold; color:gray;}
+	body { font-size:13pt; color:gray; margin-left: auto; margin-right: auto; width:900px; }
+	pre { border: solid 3px #ddd; padding:10px; }
+	tr { margin:25px; }
+	/* th { padding:20px; color:write; background:darkgray; } */
+	td { padding:20px; color:black; background:#f0f0f0; }
+	.err { color:red; }
+	/* p.link {
+		text-align:right;
+	} */
+	
+	#header1{
+	  width:auto;
+	  height:50px;
+	  font-size:2em;
+	  text-align : center;
+	}
+	#header2{
+	  width:auto;
+	  height:30px;
+	  text-align :right;
+	}
+	button.buttom{
+		font-size: 0.8em;
+		font-weight: bold;
+		padding: 15px 30px;
+		background-color: #248;
+		color: #fff;
+		border-style: none;
+		
+	}
+	table {
+		width:auto;
+	}
+</style>
+<script type="text/javascript">
+	const selected = document.getElementById("change_js");
+	selected.onchange= function() {
+		window.location.href = selected.value;
+	};
+</script>
+<script>
+	function myFunction() {
+	var favDialog = document.querySelector('dialog');
+	var updateButton = document.getElementById('updateDetails');
+	var confirmBtn = document.getElementById('confirmBtn');
+	var selectEl = document.querySelector('.radio_js');
+	
+	updateButton.addEventListener('click', function() {
+		favDialog.showModal();
+	},false);
+	
+	selectEl.addEventListener('change', function onSelect() {
+		confirmBtn.value = selectEl.value;
+	});
+	
+	favDialog.addEventListener('click', function() {
+		favDialog.close();
+	},false);
+	}
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+
+<div id="header1">
+	<p>Myイベント管理</p>
+</div>
+
+<body>
+	<dialog>
+		<form method="dialog" >
+			<label>イベント名</label>
+				<p></p>
+				<label>イベント日程を確認してください。
+					<hr/>
+						<table id="radio_js">
+						
+							<tr>
+								<th>
+									<label><input type="radio" name="eventTime" th:value="eventTime"/>候補日程１</label>
+								</th>
+								<th>
+									<label>目前○○人</label>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									<label><input type="radio" name="eventTime" th:value="eventTime"/>候補日程2</label>
+								</th>
+								<th>
+									<label>目前○○人</label>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									<label><input type="radio" name="eventTime" th:value="eventTime"/>候補日程3</label>
+								</th>
+								<th>
+									<label>目前○○人</label>
+								</th>
+							</tr>
+						
+						</table>
+					<hr/>
+				</label>
+			<menu>
+				<button id="close" value="cancel">キャンセル</button>
+				<button id="confirmBtn" value="default">確定</button>
+			</menu>
+			<p>決めた日程は参加者に告知メールを自動的に送信します。</p>
+		</form>
+	</dialog>
+	
+	<form action="/myevent" method="get">
+		<select id="change_js" onChange="location.href=value;">
+			<option>全部</option>
+			<option>募集中</option>
+			<option value="./myeventdel">イベント終了</option>
+		</select>
+	</form>
+	<table>
+		<tr th:each="obj:${list}">
+			<td><label for="event" th:text="${obj.event.eventName}" >イベント名1</label></td>
+			<td><label for="eventTime" th:text="*{obj.event.eventTime}" >イベント時間1</label></td>
+			<th><button id="updateDetails" onclick="myFunction()">日程確認</button>
+			    <form action="/event/edit" method="get">
+			    	<div><input type="submit" value="編集"/></div>
+			    </form>
+			</th>
+			<th><input type="submit" value="削除"/></th>
+		</tr>
+	</table>
+</body>
+</html>

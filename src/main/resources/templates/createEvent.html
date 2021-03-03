@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Register Form</title>
+<meta http-equiv="Content-Type" 
+	content="text/html; charset=UTF-8" />
+<style>
+	h1 { font-size:18pt; font-weight:bold; color:gray;}
+	body { font-size:13pt; color:gray; margin-left: auto; margin-right: auto; width:500px;}
+	pre { border: solid 3px #ddd; padding:10px; }
+	tr { margin:25px; color:write; background:darkgray;}
+	th { padding:20px; color:write; background:darkgray; }
+	td { padding:20px; color:black; background:#f0f0f0; }
+	.err { color:red; }
+	#header1{
+	  width:auto;
+	  height:50px;
+	  font-size:2em;
+	  text-align : center;
+	}
+	label { font-size:15pt;}
+</style>
+</head>
+<body>
+	<div id="header1">
+		<p><strong>イベント作成</strong></p>
+	</div>
+	<form th:action="@{/event/create}" method="post" >
+		<table th:object="${event}">
+			<tr><td><label for="event">イベント名</label></td></tr>
+			<tr><td><input type="text" name="eventName" th:value="*{eventName}" /></td></tr>
+			<tr><td><label for="eventDetails">イベント内容</label></td></tr>
+			<tr><td><textarea rows="4" cols="50" name="eventInfo" th:value="*{eventInfo}"></textarea></td></tr>
+			<tr>
+				<td>
+					<label for="eventTime">候補日程</label>
+					<p>※候補日程/日時を入力してください。<br/>候補の区切りは改行で判断されます。<br/>例：<br/>2021/3/2 18:00~20:00<br/>2021/2/10 10:00-11:00</p>
+				</td>
+			<tr><td><textarea rows="15" cols="50" name="eventTime" th:value="*{eventTime}"></textarea></td></tr>
+    		<tr>
+    			<td>
+				    <input type="submit" value="作成" />
+				    <input type="submit" value="キャンセル" />
+				</td>
+			</tr>
+  		</table>
+  	</form>
+</body>
+</html>
