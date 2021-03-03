@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Register Form</title>
+<meta http-equiv="Content-Type" 
+	content="text/html; charset=UTF-8" />
+<style>
+	h1 { font-size:18pt; font-weight:bold; color:gray;}
+	body { font-size:13pt; color:gray; margin-left: auto; margin-right: auto; width:900px; }
+	pre { border: solid 3px #ddd; padding:10px; }
+	tr { margin:25px; }
+	th { padding:20px; color:write; background:darkgray; }
+	td { padding:20px; color:black; background:#f0f0f0; }
+	.err { color:red; }
+	/* p.link {
+		text-align:right;
+	} */
+	
+	.form_conf {
+	    text-align: center;
+	}
+	.form_conf form {
+	    display: inline-block;
+	    margin: 0 10px;
+	}
+	
+	#header1{
+	  width:auto;
+	  height:50px;
+	  font-size:2em;
+	  text-align : center;
+	}
+	#header2{
+	  width:auto;
+	  height:30px;
+	  text-align :right;
+	}
+	button.buttom{
+		font-size: 0.8em;
+		font-weight: bold;
+		padding: 15px 20px;
+		background-color: #248;
+		color: #fff;
+		border-style: none;
+		
+	}
+	table {
+		width:auto;
+	}
+</style>
+<script>
+	function regist(id, evname, evtime) {
+		var updateButton = document.getElementById('updateDetails');
+		var favDialog = document.getElementById('favDialog');
+		var selectEl = document.querySelector('.select');
+		var confirmBtn = document.getElementById('confirmBtn');
+		
+		var eventId = document.getElementById('eventId');
+		var eventName = document.getElementById('eventName');
+		var eventTimes = document.getElementById('eventTimes');
+		
+		eventTimes.textContent = null;
+		
+		var evtimes = evtime.split('\n');
+		for (i = 0; i < evtimes.length; ++i) { 
+			eventName.innerText = evname;
+			eventId.setAttribute("value", id);
+			
+			var inputChecked = document.createElement("input");
+			inputChecked.setAttribute("type", "checkbox");
+			inputChecked.setAttribute("name", "eventTime");
+			inputChecked.setAttribute("value", evtimes[i]);
+			var label = document.createElement("label");
+			label.innerText = evtimes[i];
+			label.appendChild(inputChecked);
+			var divlebel = document.createElement("div");
+			divlebel.appendChild(label);
+			eventTimes.appendChild(divlebel);
+		}
+		
+		/* イベントハンドラー設定*/
+		updateButton.addEventListener('click', function onOpen() {
+		  if (typeof favDialog.showModal === "function") {
+		    favDialog.showModal();
+		  } else {
+		    alert("The <dialog> API is not supported by this browser");
+		  }
+		});
+		
+		/* イベントハンドラー設定*/
+		favDialog.addEventListener('close', function onClose() {
+		});
+	}
+</script>
+</head>
+<body>
+	<div id="header1">
+		<p>イベント一覧</p>
+	</div>
+	<div id="header2">
+		<p class="link"><a href="http://localhost:8080/" th:value="name" >ユーザログイン</a></p>
+	</div>
+	<!-- <form action="/eventForm" method="post" > -->
+	<dialog id="favDialog">
+		<form method="POST" action="/entry">
+			<h1 id="eventName">イベント名</h1>
+			<div><input id="eventId" type="hidden" name="eventId"></div>
+			<label>予定候補（複数可）</label>
+			<div id="eventTimes"></div>
+			<button value="cancel">キャンセル</button>
+			<button id="confirmBtn" value="default">参加</button>
+		</form>
+	</dialog>
+	
+	<div id="buttom" class="form_conf">
+			<form action="/eventcreate"><button class="buttom" type="submit">イベント作成</button></form>
+			<form action="/myevent"><button class="buttom" type="submit">Mｙイベント管理</button></form>
+			<form action="/entry"><button class="buttom" type="submit">エントリー記録</button></form>
+	</div>
+	<p></p>
+	<table>
+		<tr>
+			<th colspan="3">募集中のイベント</th>
+		</tr>
+		<tr>
+			<th>イベント名</th><th>候補日</th><th>参加</th>
+		</tr>
+		<tr th:each="obj:${list}">
+			<td>
+				<div th:text="${obj.eventName}"></div>
+				<div th:text="${obj.eventInfo}"></div>
+			</td>
+			<td th:text="${obj.eventTime}"></td>
+			<td>
+			  	<button id="updateDetails" th:data-parameter1="${obj.id}" th:data-parameter2="${obj.eventName}" th:data-parameter3="${obj.eventTime}" th:onclick="regist(this.getAttribute('data-parameter1'),this.getAttribute('data-parameter2'),this.getAttribute('data-parameter3'));">参加</button>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
