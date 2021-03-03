@@ -21,7 +21,7 @@ public class EventController {
 	@Autowired
 	private EventRepository eventRepo;
 	
-	@RequestMapping(value="/eventlist", method=RequestMethod.GET)
+	@RequestMapping(value="/event/list", method=RequestMethod.GET)
 	public ModelAndView eventList(ModelAndView mav) {
 		mav.setViewName("eventList");
 		List<Event> list = eventRepo.findAll();
@@ -29,7 +29,7 @@ public class EventController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/eventcreate", method=RequestMethod.GET)
+	@RequestMapping(value="/event/create", method=RequestMethod.GET)
 	public ModelAndView eventCreate(ModelAndView mav) {
 		mav.setViewName("createEvent");
 		Event event = new Event();
@@ -37,7 +37,7 @@ public class EventController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/eventcreate", method=RequestMethod.POST)
+	@RequestMapping(value="/event/create", method=RequestMethod.POST)
 	public ModelAndView eventAdd(
 			@ModelAttribute("event") @Validated Event event,
 			BindingResult results,
@@ -49,7 +49,7 @@ public class EventController {
 			return mav;
 		}
 		eventRepo.saveAndFlush(event);
-		return new ModelAndView("redirect:/eventlist");
+		return new ModelAndView("redirect:/event/list");
 	}
 	
 	@PostConstruct

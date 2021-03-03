@@ -20,7 +20,7 @@ public class EntryController {
 	@Autowired
 	private EntryRepository entryRepo;
 	
-	@RequestMapping(value="/entryregist", method=RequestMethod.POST)
+	@RequestMapping(value="/entry/regist", method=RequestMethod.POST)
 	ModelAndView entryRegist(
 		@ModelAttribute("entry") 
 		@Validated Entry entry,
@@ -29,10 +29,10 @@ public class EntryController {
 		) {
 		
 		entryRepo.saveAndFlush(entry);
-		return new ModelAndView("redirect:/eventlist");
+		return new ModelAndView("redirect:/event/list");
 	}
 	
-	@RequestMapping(value="/entrylist", method=RequestMethod.GET)
+	@RequestMapping(value="/entry/list", method=RequestMethod.GET)
 	ModelAndView entryList(ModelAndView mav) {
 		mav.setViewName("entryList");
 		List<Entry> list = entryRepo.findAll();

@@ -25,7 +25,7 @@
 	<div id="header1">
 		<p><strong>イベント作成</strong></p>
 	</div>
-	<form action="/eventcreate" method="post" >
+	<form action="/event/create" method="post" >
 		<table th:object="${event}">
 			<tr><td><label for="event">イベント名</label></td></tr>
 			<tr><td><input type="text" name="eventName" th:value="*{eventName}" /></td></tr>
