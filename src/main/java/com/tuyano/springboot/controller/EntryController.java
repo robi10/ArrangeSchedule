@@ -43,4 +43,15 @@ public class EntryController {
 		mav.addObject("list", list);
 		return mav;
 	}
+	
+	@RequestMapping(path="/entry/delete", method=RequestMethod.GET)
+	ModelAndView entryDelete(
+			@RequestParam("entry_id") Long entry_id,
+			@RequestParam("account_id") Long account_id,
+			ModelAndView mav) {
+
+		entryRepo.deleteById(entry_id);
+		String strRedirect = "redirect:/entry/list?account_id=" + account_id;
+		return new ModelAndView(strRedirect);
+	}
 }

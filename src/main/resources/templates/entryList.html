@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <title>Register Form</title>
 <meta http-equiv="Content-Type" 
@@ -129,12 +130,24 @@
 		<tr th:each="obj:${list}">
 			<td><label for="event" th:text="${obj.event.eventName}" >イベント名1</label></td>
 			<td><label for="eventTime" th:text="*{obj.event.eventTime}" >イベント時間1</label></td>
-			<th><button id="updateDetails" onclick="myFunction()">日程確認</button>
-			    <form action="/event/edit" method="get">
-			    	<div><input type="submit" value="編集"/></div>
-			    </form>
+			<th>
+				<div>
+					<button id="updateDetails" onclick="myFunction()">日程確認</button>
+				    <form action="/entry/edit" method="GET">
+				    	<input type="hidden" name="entry_id" th:value="${obj.id}">
+				    	<div><input id="accountId" type="hidden" name="account_id"
+							th:value="${#authentication.principal.userId}"></div>
+				    	<input type="submit" value="編集">
+				    </form>
+				    <form action="/entry/delete" method="GET">
+				    	<input type="hidden" name="entry_id" th:value="${obj.id}">
+				    	<div><input id="accountId" type="hidden" name="account_id"
+							th:value="${#authentication.principal.userId}"></div>
+				    	<input type="submit" value="削除">
+				    </form>
+			    </div>
 			</th>
-			<th><input type="submit" value="削除"/></th>
+
 		</tr>
 	</table>
 </body>
